@@ -1,75 +1,110 @@
-
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #2c3e50;
+    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    background-color: #f4f4f4;
-    height: 100vh;
 }
-.game-container {
-    text-align: center;
-    width: 90%;
-    max-width: 1200px;
-}
-header {
+
+header, footer {
+    width: 100%;
+    padding: 10px;
+    background-color: #34495e;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    align-items: center;
 }
-.timer, .results, .balance {
-    font-size: 18px;
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
 }
+
 .wheel-container {
     position: relative;
-    margin: 20px auto;
-}
-.wheel {
     width: 300px;
     height: 300px;
+    margin: 20px auto;
+    border: 5px solid white;
+    border-radius: 50%;
+    background: radial-gradient(circle, #333 60%, #000);
+}
+
+.wheel {
+    width: 100%;
+    height: 100%;
+    position: relative;
     border-radius: 50%;
     background: conic-gradient(
-        red 0deg 18deg, black 18deg 36deg, red 36deg 54deg, black 54deg 72deg,
-        red 72deg 90deg, black 90deg 108deg, red 108deg 126deg, black 126deg 144deg,
-        red 144deg 162deg, black 162deg 180deg, red 180deg 198deg, black 198deg 216deg,
-        red 216deg 234deg, black 234deg 252deg, red 252deg 270deg, black 270deg 288deg,
-        red 288deg 306deg, black 306deg 324deg, red 324deg 342deg, black 342deg 360deg
+        green 0deg 10deg,
+        black 10deg 20deg,
+        red 20deg 30deg,
+        black 30deg 40deg,
+        red 40deg 50deg,
+        black 50deg 60deg,
+        red 60deg 70deg,
+        black 70deg 80deg,
+        red 80deg 90deg,
+        black 90deg 100deg
     );
-    border: 5px solid #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+    transform-origin: center;
 }
-.wheel::after {
-    content: "";
+
+.number {
     position: absolute;
-    width: 10px;
-    height: 10px;
-    background: #fff;
-    border-radius: 50%;
+    font-size: 14px;
+    color: white;
+    transform-origin: 50% 50%;
 }
+
 #spin-button {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
 }
+
 .table-container {
-    margin-top: 20px;
-}
-.betting-area {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 20px;
-}
-.betting-area button {
-    margin: 5px;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #34495e;
+    border: 2px solid white;
+    border-radius: 5px;
     padding: 10px;
+}
+
+#betting-table {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 5px;
+}
+
+#betting-table div {
+    background-color: white;
+    text-align: center;
     font-size: 14px;
-    cursor: pointer;
+    padding: 5px;
+    border: 1px solid black;
+    color: black;
+}
+
+#betting-table div.red {
+    background-color: red;
+    color: white;
+}
+
+#betting-table div.black {
+    background-color: black;
+    color: white;
+}
+
+#betting-table div.green {
+    background-color: green;
+    color: white;
 }
