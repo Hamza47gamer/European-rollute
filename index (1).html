@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>European Roulette</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <header>
+            <div class="timer">Time Left: <span id="timer">15</span>s</div>
+            <div class="results">
+                Last Results: <span id="last-results">-</span>
+            </div>
+        </header>
+        <main>
+            <div class="wheel-container">
+                <div class="wheel" id="wheel"></div>
+                <button id="spin-button" disabled>Spin</button>
+            </div>
+            <div class="table-container">
+                <div id="betting-table">
+                    <!-- Betting Table Content Will Be Dynamically Added -->
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div class="balance">Balance: <span id="balance">1000</span> Chips</div>
+            <a href="admin.html" class="admin-link">Admin Panel</a>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
