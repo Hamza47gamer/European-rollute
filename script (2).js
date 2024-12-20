@@ -1,14 +1,13 @@
-
-let balance = 1000;
-let timer = 15;
+let balance = 10000
+let timer = 10;
 let interval;
 let lastResults = [];
 let isSpinning = false;
-let patterns = []; // Store patterns from admin panel
-let usePatterns = false; // Toggle between patterns and random generation
-let currentSeed = 42; // Seed for PRNG
+let patterns = [];
+let usePatterns = false;
+let currentSeed = 42;
 
-// Linear Congruential Generator (LCG) for PRNG
+// PRNG for generating numbers
 function lcg(seed) {
     const a = 1664525;
     const c = 1013904223;
@@ -17,23 +16,45 @@ function lcg(seed) {
     return seed / m;
 }
 
-// Generate next result based on training patterns
+// Generate result using patterns or randomness
 function generateResult() {
     if (usePatterns && patterns.length > 0) {
-        // Adjust result using pattern influence
         const basePattern = patterns[Math.floor(lcg(currentSeed) * patterns.length)];
-        currentSeed = Math.floor(lcg(currentSeed) * 1000); // Update seed for next PRNG
-        const noise = Math.floor(lcg(currentSeed) * 3) - 1; // Add slight random deviation (-1, 0, 1)
+        currentSeed = Math.floor(lcg(currentSeed) * 1000);
+        const noise = Math.floor(lcg(currentSeed) * 3) - 1;
         let result = basePattern + noise;
-        if (result < 0) result = 0; // Ensure results are within bounds
+        if (result < 0) result = 0;
         if (result > 36) result = 36;
         return result;
     } else {
-        // Pure random generation if no patterns are available
         return Math.floor(lcg(currentSeed) * 37);
     }
 }
 
+// Create numbers on the roulette wheel
+function createWheelNumbers() {
+    const wheel = document.getElementById("wheel");
+    const numbers = [
+        { num: 0, color: "green" },
+        { num: 32, color: "red" },
+        { num: 15, color: "black" },
+        { num: 19, color: "red" },
+        { num: 4, color: "black" },
+        { num: 21, color: "red" },
+        // Add all 37 slots with appropriate numbers and colors
+    ];
+    const angleStep = 360 / numbers.length;
+
+    numbers.forEach((n, i) => {
+        const numberDiv = document.createElement("div");
+        numberDiv.innerText = n.num;
+        numberDiv.className = `number ${n.color}`;
+        numberDiv.style.transform = `rotate(${i * angleStep}deg) translate(0, -140px)`;
+        wheel.appendChild(numberDiv);
+    });
+}
+
+// Timer logic
 function startTimer() {
     interval = setInterval(() => {
         timer -= 1;
@@ -45,6 +66,7 @@ function startTimer() {
     }, 1000);
 }
 
+// Spin the roulette wheel
 function spinWheel() {
     if (isSpinning) return;
     isSpinning = true;
@@ -52,10 +74,9 @@ function spinWheel() {
     document.getElementById("spin-button").disabled = true;
 
     const wheel = document.getElementById("wheel");
-    const result = generateResult(); // Use the algorithm to get the result
-
+    const result = generateResult();
     wheel.style.transition = "transform 4s ease-out";
-    wheel.style.transform = `rotate(${3600 + result * 9.73}deg)`;
+    wheel.style.transform = `rotate(${3600 + result * (360 / 37)}deg)`;
 
     setTimeout(() => {
         updateLastResults(result);
@@ -64,12 +85,14 @@ function spinWheel() {
     }, 4000);
 }
 
+// Update last results
 function updateLastResults(number) {
     lastResults.unshift(number);
     if (lastResults.length > 9) lastResults.pop();
     document.getElementById("last-results").innerText = lastResults.join(", ");
 }
 
+// Reset game
 function resetGame() {
     timer = 15;
     document.getElementById("timer").innerText = timer;
@@ -85,9 +108,9 @@ function loadPatterns() {
     }
 }
 
-// Event Listeners
 document.getElementById("spin-button").addEventListener("click", spinWheel);
 window.onload = () => {
     loadPatterns();
+    createWheelNumbers();
     startTimer();
 };
